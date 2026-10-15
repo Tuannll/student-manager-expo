@@ -2,95 +2,81 @@
 
 # Student Manager
 
-**Ứng dụng React Native quản lý sinh viên, chạy bằng Expo và backend local.**
+**Cross-platform student management app built with Expo, React Native, TypeScript, and a bundled local REST API.**
 
+[![CI](https://github.com/Tuannll/student-manager-expo/actions/workflows/ci.yml/badge.svg)](https://github.com/Tuannll/student-manager-expo/actions/workflows/ci.yml)
 [![Expo](https://img.shields.io/badge/Expo-54-000020?style=flat-square&logo=expo&logoColor=white)](https://expo.dev/)
-[![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactnative.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Axios](https://img.shields.io/badge/Axios-1.17-5A29E4?style=flat-square&logo=axios&logoColor=white)](https://axios-http.com/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/github/license/Tuannll/student-manager-expo?style=flat-square)](LICENSE)
 
-**[Tính năng](#tính-năng) • [Cài đặt](#cài-đặt) • [Backend local](#backend-local) • [API](#api) • [FAQ](#faq)**
+**[Features](#features) • [Quick Start](#quick-start) • [API](#api) • [FAQ](#faq)**
+
+**English** | [Tiếng Việt](README.vi.md)
 
 </div>
 
 ---
 
-<a id="tính-năng"></a>
+<a id="features"></a>
 
-## ✨ Tính năng
+## ✨ Features
 
-| Nhóm | Chi tiết |
+| Area | Included |
 | --- | --- |
-| **Danh sách** | Tải, hiển thị và tìm kiếm sinh viên theo backend API. |
-| **Thêm mới** | Validate tên, MSSV, email; chặn gửi form trùng. |
-| **Chi tiết** | Hiển thị đầy đủ tên, MSSV, lớp, email, địa chỉ. |
-| **Xóa** | Có xác nhận, loading state và tự tải lại danh sách. |
-| **Trạng thái UI** | Loading, empty state, lỗi kết nối và retry. |
-| **Accessibility** | Label, role và disabled state cho action chính. |
+| **Student list** | Load students and search by name, student ID, or email. |
+| **Create** | Validate required fields, trim input, and prevent duplicate submissions. |
+| **Details** | Display name, student ID, class, email, and address. |
+| **Delete** | Confirm destructive actions and refresh the list after deletion. |
+| **UI states** | Loading, empty, error, retry, and disabled states. |
+| **Accessibility** | Accessible labels, roles, busy states, and touch targets. |
+| **Local API** | Bundled `json-server` backend with sample data and API smoke tests. |
 
 ---
 
-<a id="cài-đặt"></a>
+<a id="quick-start"></a>
 
-## 🚀 Cài đặt
+## 🚀 Quick Start
 
-**Yêu cầu:** Node.js `>= 22`, Expo Go cho thiết bị thật, Android Emulator hoặc iOS Simulator, backend tương thích chạy local.
-
-```bash
-git clone https://github.com/Tuannll/student-manager.git
-cd student-manager
-npm install
-```
-
-Tạo file `.env` từ mẫu:
+**Requirements:** Node.js `>= 22`, npm, and Expo Go, Android Emulator, or iOS Simulator.
 
 ```bash
+git clone https://github.com/Tuannll/student-manager-expo.git
+cd student-manager-expo
+npm ci
+npm ci --prefix mock-backend
 cp .env.example .env
 ```
 
-Windows PowerShell:
+PowerShell equivalent:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Chạy app:
+Start API in terminal 1:
+
+```bash
+npm start --prefix mock-backend
+```
+
+Start Expo in terminal 2:
 
 ```bash
 npm start
 ```
 
 > [!NOTE]
-> `.env` không được commit. Mỗi máy tự cấu hình `EXPO_PUBLIC_API_URL` cho backend local.
+> The API is local development infrastructure. It has no authentication and must not be exposed as a production service.
 
----
+### API URL by runtime
 
-<a id="backend-local"></a>
-
-## 🖥️ Backend local
-
-Backend phải chạy trước khi mở app và cung cấp API ở port `3000` hoặc port bạn cấu hình.
-
-```env
-EXPO_PUBLIC_API_URL=http://localhost:3000
-```
-
-| Môi trường chạy app | Giá trị `EXPO_PUBLIC_API_URL` |
+| Runtime | `EXPO_PUBLIC_API_URL` |
 | --- | --- |
 | iOS Simulator | `http://localhost:3000` |
 | Android Emulator | `http://10.0.2.2:3000` |
-| Điện thoại thật | `http://<IP-LAN-MÁY-CHẠY-BACKEND>:3000` |
+| Physical device | `http://<BACKEND-COMPUTER-LAN-IP>:3000` |
 
-Ví dụ điện thoại thật:
-
-```env
-EXPO_PUBLIC_API_URL=http://192.168.1.10:3000
-```
-
-Điện thoại và máy chạy backend phải **cùng Wi-Fi**. Cho phép backend qua Windows Firewall nếu app không kết nối được.
-
-Sau khi đổi `.env`, dừng Expo rồi chạy lại `npm start` để Expo đọc URL mới.
+Physical devices and backend computer must use same Wi-Fi. Restart Expo after changing `.env`.
 
 ---
 
@@ -98,62 +84,55 @@ Sau khi đổi `.env`, dừng Expo rồi chạy lại `npm start` để Expo đ�
 
 ## 🔌 API
 
-Backend local cần cung cấp JSON contract sau:
-
-| Method | Endpoint | Mục đích |
+| Method | Endpoint | Purpose |
 | --- | --- | --- |
-| `GET` | `/students` | Lấy toàn bộ danh sách sinh viên. |
-| `GET` | `/students?search=<keyword>` | Tìm kiếm sinh viên. |
-| `GET` | `/students/:id` | Lấy chi tiết một sinh viên. |
-| `POST` | `/students` | Tạo sinh viên mới. |
-| `DELETE` | `/students/:id` | Xóa sinh viên. |
-
-Dữ liệu sinh viên:
+| `GET` | `/students` | List students. |
+| `GET` | `/students?search=<keyword>` | Search all student fields. |
+| `GET` | `/students/:id` | Read one student. |
+| `POST` | `/students` | Create one student. |
+| `DELETE` | `/students/:id` | Delete one student. |
 
 ```json
 {
   "id": "1",
-  "name": "Nguyễn Văn An",
-  "mssv": "12345",
-  "lop": "64CS",
+  "name": "Nguyễn Văn An Bình Cường",
+  "mssv": "SV001",
+  "lop": "64CS1",
   "email": "an@example.com",
   "address": "Hà Nội"
 }
 ```
 
-`lop` và `address` có thể bỏ trống. Backend tạo `id` khi xử lý `POST`.
+Validation follows assignment constraints: name has at least 20 trimmed characters, student ID at least 5, email is required and contains `@`, address is optional.
 
 ---
 
-## 🛠️ Lệnh
+## 🛠️ Commands
 
 ```bash
-npm start          # Mở Expo development server
-npm run android    # Mở Android
-npm run ios        # Mở iOS Simulator trên macOS
-npm test           # Chạy config, README và validation tests
-npm run typecheck  # Kiểm tra TypeScript
+npm start                              # Start Expo
+npm run android                        # Open Android
+npm run ios                            # Open iOS Simulator on macOS
+npm test                               # Run repository and validation tests
+npm run typecheck                      # Check TypeScript
+npm run check --prefix mock-backend    # Check backend syntax
+npm run smoke --prefix mock-backend    # Exercise backend CRUD API
 ```
 
 ---
 
-## 📁 Cấu trúc dự án
+## 📁 Structure
 
 ```text
-student-manager/
+student-manager-expo/
 ├── app/                         # Expo Router screens
-│   ├── _layout.tsx               # Stack navigation
-│   ├── index.tsx                 # List và search
-│   ├── add.tsx                   # Create form
-│   └── detail/[id].tsx           # Detail và delete
-├── assets/                       # App icon, splash, favicon
-├── services/
-│   ├── api.ts                    # Axios API boundary
-│   └── studentValidation.ts       # Pure client validation
-├── types/index.ts                # Student type
-├── app.config.js                 # Expo config + API URL bridge
-├── .env.example                  # Local backend URL sample
-└── appConfig.test.mjs            # Expo config test
+├── assets/                      # App icons and splash assets
+├── services/                    # API client and validation
+├── types/                       # Student model
+├── mock-backend/                # Local JSON REST API and sample data
+├── .github/workflows/ci.yml     # Automated checks
+├── README.md                    # English documentation
+└── README.vi.md                 # Vietnamese documentation
 ```
 
 ---
@@ -162,32 +141,36 @@ student-manager/
 
 ## ❓ FAQ
 
-**App báo không tải được danh sách?**  
-Kiểm tra backend đang chạy, URL trong `.env`, và firewall. Thiết bị thật không dùng `localhost`.
+**Why can the app not load students?**
 
-**Android Emulator không gọi được backend?**  
-Dùng `http://10.0.2.2:3000`, không dùng `http://localhost:3000`.
+Confirm backend is running, `.env` has correct URL, and firewall permits port `3000`.
 
-**Tại sao thay `.env` nhưng app vẫn dùng URL cũ?**  
-Dừng Expo, sau đó chạy lại `npm start`.
+**Why does Android Emulator reject `localhost`?**
 
-**Có backend trong repo này không?**  
-Không. Đây là mobile client. Bạn cần chạy backend tương thích riêng.
+Use `http://10.0.2.2:3000`; emulator `localhost` points to emulator itself.
 
----
+**How do I reset sample data?**
 
-## 🤝 Đóng góp
+Restore `mock-backend/db.json` from Git: `git restore mock-backend/db.json`.
 
-Fork repository, tạo branch, chạy `npm test` và `npm run typecheck`, rồi mở pull request.
+**Does repository include backend?**
+
+Yes. `mock-backend/` contains local development API and sample students.
 
 ---
 
-## ⚠️ Lưu ý
+## 🤝 Contributing
 
-Repository phục vụ chạy với backend local. Không chứa dữ liệu production, token, API key, hoặc backend public.
+Create a branch, run `npm test`, `npm run typecheck`, and backend smoke test, then open a pull request.
+
+---
+
+## ⚠️ Disclaimer
+
+Sample records are fictional. Local backend is for education and development only.
 
 ---
 
 ## 📄 License
 
-Phát hành theo [MIT License](LICENSE).
+Released under [MIT License](LICENSE).

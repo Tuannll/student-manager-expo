@@ -3,11 +3,11 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000';
 module.exports = ({ config }) => ({
   ...config,
   name: 'Student Manager',
-  slug: 'student-manager',
+  slug: 'student-manager-expo',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
-  scheme: 'student-manager',
+  scheme: 'student-manager-expo',
   userInterfaceStyle: 'light',
   splash: {
     image: './assets/splash-icon.png',

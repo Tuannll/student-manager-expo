@@ -10,9 +10,10 @@ export function validateStudent(input: StudentDraft): { data: StudentDraft; erro
   ) as StudentDraft;
   const errors: StudentErrors = { name: '', mssv: '', email: '' };
 
-  if (!data.name) errors.name = 'Tên sinh viên là bắt buộc';
+  if (data.name.length < 20) errors.name = 'Tên phải tối thiểu 20 ký tự';
   if (data.mssv.length < 5) errors.mssv = 'MSSV phải tối thiểu 5 ký tự';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'Email không hợp lệ';
+  if (!data.email) errors.email = 'Email là bắt buộc';
+  else if (!data.email.includes('@')) errors.email = 'Email không hợp lệ';
 
   return { data, errors };
 }

@@ -58,7 +58,7 @@ export default function AddStudentScreen() {
         accessibilityLabel="Tên sinh viên"
         editable={!isSubmitting}
         onChangeText={(value) => { setName(value); clearError('name'); }}
-        placeholder="Tên sinh viên"
+        placeholder="Tên sinh viên (tối thiểu 20 ký tự)"
         style={[styles.input, errors.name ? styles.inputError : null]}
         value={name}
       />

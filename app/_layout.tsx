@@ -16,6 +16,7 @@ export default function RootLayout() {
             <TouchableOpacity
               accessibilityLabel="Thêm sinh viên"
               accessibilityRole="button"
+              hitSlop={12}
               onPress={() => router.push('/add')}
             >
               {/* router.push('/add') = điều hướng sang màn hình add.tsx */}

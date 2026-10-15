@@ -10,5 +10,7 @@ test('Expo config uses existing splash asset and localhost fallback API URL', ()
   const config = appConfig({ config: {} });
 
   assert.ok(existsSync(new URL(config.splash.image, import.meta.url)));
+  assert.equal(config.slug, 'student-manager-expo');
+  assert.equal(config.scheme, 'student-manager-expo');
   assert.equal(config.extra.apiUrl, 'http://localhost:3000');
 });

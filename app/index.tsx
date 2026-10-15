@@ -81,7 +81,7 @@ export default function StudentListScreen() {
           <TouchableOpacity
             accessibilityLabel={`Xem sinh viên ${item.name}`}
             accessibilityRole="button"
-            onPress={() => router.push(`/detail/${item.id}`)}
+            onPress={() => router.push(`/detail/${encodeURIComponent(item.id)}`)}
             style={styles.item}
           >
             <Text style={styles.name}>{item.name}</Text>

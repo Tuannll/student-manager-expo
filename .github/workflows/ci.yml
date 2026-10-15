@@ -6,8 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,6 +18,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            mock-backend/package-lock.json
       - run: npm ci
+      - run: npm ci --prefix mock-backend
       - run: npm test
       - run: npm run typecheck
+      - run: npm run check --prefix mock-backend
+      - run: npm run smoke --prefix mock-backend

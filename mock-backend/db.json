@@ -1,0 +1,28 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn An Bình Cường",
+      "mssv": "SV001",
+      "lop": "64CS1",
+      "email": "an@example.com",
+      "address": "Hà Nội"
+    },
+    {
+      "id": "2",
+      "name": "Trần Thị Bình Dương Hoa",
+      "mssv": "SV002",
+      "lop": "64CS2",
+      "email": "binh@example.com",
+      "address": "TP. Hồ Chí Minh"
+    },
+    {
+      "id": "3",
+      "name": "Lê Hoàng Cường Minh Phúc",
+      "mssv": "SV003",
+      "lop": "64XD1",
+      "email": "cuong@example.com",
+      "address": "Đà Nẵng"
+    }
+  ]
+}
